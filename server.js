@@ -22,6 +22,7 @@ if (!uri) {
 var index = require('./server/routes/app');
 var notesRoute = require('./server/routes/notes');
 var filesRoute = require('./server/routes/files');
+var usersRoute = require('./server/routes/users');
 
 // ... ADD CODE TO IMPORT YOUR ROUTING FILES HERE ... 
 
@@ -89,6 +90,7 @@ app.use(express.static(path.join(__dirname, 'dist/personal_database/browser')));
 app.use('/', index);
 app.use('/notes', notesRoute);
 app.use('/files', filesRoute);
+app.use('/users', usersRoute);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 

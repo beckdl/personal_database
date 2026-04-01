@@ -2,8 +2,8 @@
 
 <p>Welcome {{ user.name }} to your account page! Here you can manage your personal information and settings.</p>
 
-<p><a routerLink="/account/edit">Edit your account details</a></p>
-<p><a routerLink="/account/delete">Delete your account</a></p>
+<p><a class="btn btn-primary" routerLink="/account/edit">Edit your account details</a></p>
+<p><a class="btn btn-danger" routerLink="/account/delete">Delete your account</a></p>
 
 <button class="btn btn-secondary" (click)="logout()">Logout</button>
 

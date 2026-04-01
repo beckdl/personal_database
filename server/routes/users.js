@@ -1,11 +1,16 @@
 var express = require('express');
 var router = express.Router();
-const User = require('../models/user');
+const user = require('../models/user');
 
 router.get('/', (req, res, next) => {
-    User.find()
-        .then(users => {
-            res.status(200).json(users);
+    user.findOne({ userName: req.query.userName, password: req.query.password })
+        .then(user => {
+            if (user) {
+                console.log('User found:', user);
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
         })
         .catch(error => {
             res.status(500).json({ message: 'An error occurred', error: error });
@@ -13,15 +18,16 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    const user = new User({
+    const newUser = new user({
         id: new Date().getTime().toString(),
+        name: req.body.name,
         userName: req.body.userName,
         password: req.body.password,
         email: req.body.email,
         phone: req.body.phone
     });
 
-    user.save()
+    newUser.save()
         .then(createdUser => {
             res.status(201).json({message: 'User added successfully', user: createdUser});
         })
@@ -31,7 +37,7 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    User.findOne({ id: req.params.id })
+    user.findOne({ id: req.params.id })
         .then(user => {
             if (!user) {
                 return res.status(404).json({ message: 'User not found.' });
@@ -57,7 +63,7 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
-    User.findOne({ id: req.params.id })
+    user.findOne({ id: req.params.id })
         .then(user => {
             if (!user) {
                 return res.status(404).json({ message: 'User not found.' });

@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
     return this.loginService.isLoggedIn();
   }
 
-  login(username: string, password: string): void {
+  async login(username: string, password: string): Promise<void> {
     try {
-      const success = this.loginService.login(username, password);
+      const success = await this.loginService.login(username, password);
       if (success) {
         console.log('Login successful');
         this.router.navigate(['/account']);
