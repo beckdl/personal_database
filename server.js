@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://icefire242424_db_user:RM8Jxvh3PEHLJSX6@cluster0.xhnnh26.mongodb.net/?appName=Cluster0";
+const uri = process.env.MONGODB_URI;
 
 // import the routing file to handle the default (index) route
 var index = require('./server/routes/app');
