@@ -7,7 +7,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+
+require('dotenv').config();
+
 const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  console.error('Missing environment variable MONGODB_URI.');
+  console.error('Set MONGODB_URI to a valid MongoDB connection string before starting the server.');
+  process.exit(1);
+}
 
 // import the routing file to handle the default (index) route
 var index = require('./server/routes/app');
@@ -46,9 +55,7 @@ mongoose.connect(uri, { dbName: 'pd' })
     console.error('Mongoose connection error:', error);
   });
 
-//icefire242424_db_user
-//RM8Jxvh3PEHLJSX6
-//mongodb+srv://icefire242424_db_user:RM8Jxvh3PEHLJSX6@cluster0.xhnnh26.mongodb.net/
+
 
 // Tell express to use the following parsers for POST data
 app.use(bodyParser.json());

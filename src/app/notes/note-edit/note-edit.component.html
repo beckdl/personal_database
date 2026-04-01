@@ -1,1 +1,48 @@
-<p>note-edit works!</p>
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="subject">Note Subject:</label>
+          <input
+            type="text"
+            id="subject"
+            class="form-control"
+            size="120"
+            max="120"
+            name="subject"
+            [ngModel]="note.subject"
+            required
+            #subject="ngModel">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="note">Note:</label>
+          <textarea
+            id="note"
+            class="form-control"
+            rows="5"
+            name="note"
+            [ngModel]="note.note"
+            required
+            #noteField="ngModel"></textarea>
+        </div>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="(subject.invalid && subject.touched) || (noteField.invalid && noteField.touched)">
+        The Note Subject and Note content are required fields.
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 btn-toolbar">
+          <button class="btn btn-success" type="submit" [disabled]="!f.valid">Save</button>
+          <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>

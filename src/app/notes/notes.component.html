@@ -1,1 +1,12 @@
-<p>notes works!</p>
+<h1>Notes</h1>
+<h3 *ngIf="!loggedIn">If you would like to create or manage your notes, please <a routerLink="/login">login</a>.</h3>
+<div *ngIf="loggedIn">
+  <div class="clearfix">
+    <a [routerLink]="['new']" class="btn btn-success pull-right">Add Note</a>
+  </div>
+  <p *ngIf="!notesLoaded">Loading notes...</p>
+  <p *ngIf="notesLoaded && loadError" class="text-danger">{{ loadError }}</p>
+  <p *ngIf="notesLoaded && !loadError && notes.length === 0">No notes found.</p>
+  <pd-note-list *ngIf="notesLoaded" [notes]="notes"></pd-note-list>
+  <router-outlet></router-outlet>
+</div>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Note } from '../note.model';
 
 @Component({
   selector: 'pd-note-list',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './note-list.component.html',
   styleUrl: './note-list.component.css',
 })
-export class NoteListComponent {}
+export class NoteListComponent {
+  @Input() notes: Note[] = [];
+}
