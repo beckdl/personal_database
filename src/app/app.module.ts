@@ -20,6 +20,8 @@ import { NoteListComponent } from './notes/note-list/note-list.component';
 import { NoteEditComponent } from './notes/note-edit/note-edit.component';
 import { NoteDetailsComponent } from './notes/note-details/note-details.component';
 import { NoteItemComponent } from './notes/note-item/note-item.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { NoteItemComponent } from './notes/note-item/note-item.component';
     NoteDetailsComponent,
     NoteItemComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })

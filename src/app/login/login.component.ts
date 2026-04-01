@@ -9,17 +9,27 @@ import { Login } from '../services/login.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
-  
   constructor(private loginService: Login) {}
   
   ngOnInit() {
     console.log('Login component initialized');
-
-    try {
-      this.loginService.login('admin', 'admin');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-
   }
+
+  get loggedIn(): boolean {
+    return this.loginService.isLoggedIn();
+  }
+
+  login() {
+    try {
+      const success = this.loginService.login('admin', 'admin');
+      if (success) {
+        console.log('Login successful');
+      } else {
+        console.warn('Login failed: Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  }
+
 }

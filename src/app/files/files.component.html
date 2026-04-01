@@ -1,2 +1,12 @@
 <h1>Files</h1>
-<h3 *ngIf="loggedIn == false">If you would like to upload or manage your files, please <a routerLink="/login">login</a>.</h3>
+<h3 *ngIf="!loggedIn">If you would like to upload or manage your files, please <a routerLink="/login">login</a>.</h3>
+<div *ngIf="loggedIn">
+  <div class="clearfix">
+    <a [routerLink]="['new']" class="btn btn-success pull-right">Add File</a>
+  </div>
+  <p *ngIf="!filesLoaded">Loading files...</p>
+  <p *ngIf="filesLoaded && loadError" class="text-danger">{{ loadError }}</p>
+  <p *ngIf="filesLoaded && !loadError && files.length === 0">No files found.</p>
+  <pd-file-list *ngIf="filesLoaded" [files]="files"></pd-file-list>
+  <router-outlet></router-outlet>
+</div>

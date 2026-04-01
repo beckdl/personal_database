@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { File } from '../file.model';
 
 @Component({
   selector: 'pd-file-list',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './file-list.component.html',
   styleUrl: './file-list.component.css',
 })
-export class FileListComponent {}
+export class FileListComponent {
+  @Input() files: File[] = [];
+}

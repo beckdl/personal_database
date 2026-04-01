@@ -12,11 +12,20 @@ export class Header implements OnInit {
 
   constructor(private loginService: Login) {}
 
-  loggedIn: boolean = false;
+  get loggedIn(): boolean {
+    return this.loginService.isLoggedIn();
+  }
 
   ngOnInit() {
-    const loggedIn: boolean = this.loginService.isLoggedIn();
-    console.log('User logged in:', loggedIn);
+    console.log('User logged in:', this.loginService.isLoggedIn());
+  }
+
+  get logout(): () => void {
+    return () => {
+      this.loginService.logout();
+      window.location.reload();
+      console.log('User logged out');
+    }
   }
 
 }

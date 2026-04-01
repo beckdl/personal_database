@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Login {
-  private loggedIn = false;
+  private readonly loggedInSubject = new BehaviorSubject<boolean>(false);
+  readonly loggedIn$ = this.loggedInSubject.asObservable();
 
   login(username: string, password: string): boolean {
     // For demonstration purposes, we'll just check if the username and password are "admin"
     if (username === 'admin' && password === 'admin') {
-      this.loggedIn = true;
+      this.loggedInSubject.next(true);
       return true;
     }
     return false;
   }
 
   logout(): void {
-    this.loggedIn = false;
+    this.loggedInSubject.next(false);
   }
 
   isLoggedIn(): boolean {
-    return this.loggedIn;
+    return this.loggedInSubject.value;
   }
 }

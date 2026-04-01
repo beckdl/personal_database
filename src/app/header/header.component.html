@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="/" class="navbar-brand">Personal Database</a>
+      <a routerLink="/home" class="navbar-brand">Personal Database</a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -18,7 +18,7 @@
             <li *ngIf="loggedIn == true"><a routerLink="/account">Account</a></li>
             <li><a href="#">Other</a></li>
             <li role="separator" class="divider"></li>
-            <li *ngIf="loggedIn == true"><a routerLink="/logout">Logout</a></li>
+            <li *ngIf="loggedIn == true"><a (click)="logout()">Logout</a></li>
           </ul>
         </li>
       </ul>

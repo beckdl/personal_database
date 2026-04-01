@@ -1,1 +1,3 @@
-<p>login works!</p>
+<h1>Login</h1>
+<h4 *ngIf="loggedIn === false">Click <a (click)="login()">here</a> to login</h4>
+<h4 *ngIf="loggedIn === true">You are logged in!</h4>

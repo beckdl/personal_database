@@ -1,1 +1,68 @@
-<p>file-edit works!</p>
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="name">File Name:</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            size="120"
+            max="120"
+            name="name"
+            [ngModel]="file.name"
+            required
+            #name="ngModel">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="description">File Description:</label>
+          <input
+            type="text"
+            id="description"
+            class="form-control"
+            size="120"
+            max="255"
+            name="description"
+            [ngModel]="file.description">
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for="fileUpload">File Upload:</label>
+        <input
+        type="file"
+        id="fileUpload"
+        class="form-control"
+        name="fileUpload"
+        (change)="onFileSelected($event)"
+        required
+        #fileUpload>
+      </div>
+    </div>
+
+      <div class="alert alert-danger" *ngIf="fileReadError">
+        {{ fileReadError }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="(name.invalid && name.touched) || (fileUpload.value === '')">
+        The File Name and File selection are required fields.
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 btn-toolbar">
+          <button class="btn btn-success" type="submit" [disabled]="!f.valid">Save</button>
+          <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
