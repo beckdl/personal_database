@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Login } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pd-login',
@@ -9,7 +10,10 @@ import { Login } from '../services/login.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
-  constructor(private loginService: Login) {}
+  username: string = '';
+  password: string = '';
+
+  constructor(private loginService: Login, private router: Router) {}
   
   ngOnInit() {
     console.log('Login component initialized');
@@ -19,11 +23,12 @@ export class LoginComponent implements OnInit {
     return this.loginService.isLoggedIn();
   }
 
-  login() {
+  login(username: string, password: string): void {
     try {
-      const success = this.loginService.login('admin', 'admin');
+      const success = this.loginService.login(username, password);
       if (success) {
         console.log('Login successful');
+        this.router.navigate(['/account']);
       } else {
         console.warn('Login failed: Invalid credentials');
       }

@@ -1,3 +1,17 @@
 <h1>Login</h1>
-<h4 *ngIf="loggedIn === false">Click <a (click)="login()">here</a> to login</h4>
-<h4 *ngIf="loggedIn === true">You are logged in!</h4>
+
+<form class="" (ngSubmit)="login(username, password)">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input class="form-control" type="text" id="username" [(ngModel)]="username" name="username" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input class="form-control" type="password" id="password" [(ngModel)]="password" name="password" required>
+  </div>
+  <br>
+  <button class="btn btn-primary" type="submit">Login</button>
+  <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+</form>
+
