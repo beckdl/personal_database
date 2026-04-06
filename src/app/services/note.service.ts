@@ -3,6 +3,7 @@ import { Note } from '../notes/note.model';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { Login } from './login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class NoteService implements OnInit {
   noteSelectedEvent = new EventEmitter<Note>();  
   notes: Note[] = [];
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private loginService: Login) { 
     this.maxNoteId = this.getMaxId();
   }
 
@@ -24,7 +25,18 @@ export class NoteService implements OnInit {
   }
 
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(this.server).pipe(
+    const userId = this.loginService.getCurrentUserId();
+
+    if (!userId) {
+      this.notes = [];
+      this.noteListChangedEvent.next([]);
+      return new Observable<Note[]>((observer) => {
+        observer.next([]);
+        observer.complete();
+      });
+    }
+
+    return this.http.get<Note[]>(this.server, { params: { userId } }).pipe(
       map((notes: Note[]) => {
         this.notes = notes;
         this.maxNoteId = this.getMaxId();
@@ -60,7 +72,14 @@ export class NoteService implements OnInit {
       return;
     }
 
+    const userId = this.loginService.getCurrentUserId();
+    if (!userId) {
+      console.warn('Cannot add note: no logged-in user.');
+      return;
+    }
+
     note.id = '';
+    note.userId = userId;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -78,12 +97,19 @@ export class NoteService implements OnInit {
       return;
     }
 
+    const userId = this.loginService.getCurrentUserId();
+    if (!userId) {
+      console.warn('Cannot update note: no logged-in user.');
+      return;
+    }
+
     const pos = this.notes.findIndex(n => n.id === originalNote.id);
     if (pos < 0) {
       return;
     }
 
     newNote.id = originalNote.id;
+    newNote.userId = userId;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -98,6 +124,12 @@ export class NoteService implements OnInit {
   }
 
   deleteNote(note: Note) {
+    const userId = this.loginService.getCurrentUserId();
+    if (!userId) {
+      console.warn('Cannot delete note: no logged-in user.');
+      return;
+    }
+
     const pos = this.notes.findIndex(n => n.id === note.id);
     if (pos < 0) {
       return;
@@ -107,7 +139,7 @@ export class NoteService implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.delete(`${this.server}/${note.id}`, { headers: headers })
+    this.http.delete(`${this.server}/${note.id}`, { headers: headers, params: { userId } })
       .subscribe(
         (response: Response) => {
           this.notes.splice(pos, 1);

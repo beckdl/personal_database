@@ -3,18 +3,32 @@ var router = express.Router();
 const user = require('../models/user');
 
 router.get('/', (req, res, next) => {
-    user.findOne({ userName: req.query.userName, password: req.query.password })
-        .then(user => {
-            if (user) {
-                console.log('User found:', user);
-                res.status(200).json(user);
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-        })
-        .catch(error => {
-            res.status(500).json({ message: 'An error occurred', error: error });
-        });
+    if (req.query.userName && !req.query.password) {
+        user.findOne({ userName: req.query.userName })
+            .then(user => {
+                if (user) {
+                    res.status(200).json({ exists: true });
+                } else {
+                    res.status(200).json({ exists: false });
+                }
+            })
+            .catch(error => {
+                res.status(500).json({ message: 'An error occurred', error: error });
+            });
+    } else {
+        user.findOne({ userName: req.query.userName, password: req.query.password })
+            .then(user => {
+                if (user) {
+                    console.log('User found:', user);
+                    res.status(200).json(user);
+                } else {
+                    res.status(404).json({ message: 'User not found' });
+                }
+            })
+            .catch(error => {
+                res.status(500).json({ message: 'An error occurred', error: error });
+            });
+    }
 });
 
 router.post('/', (req, res, next) => {

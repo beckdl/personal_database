@@ -26,7 +26,7 @@ export class NoteEditComponent implements OnInit {
       const id = params['id'];
       if (!id) {
         this.editMode = false;
-        this.note = new Note('', '', '');
+        this.note = new Note('', '', '', '');
         return;
       }
       this.originalNote = this.noteService.getNote(id);
@@ -42,6 +42,7 @@ export class NoteEditComponent implements OnInit {
     const value = f.value;
     const newNote = new Note(
       "",
+      this.note?.userId || this.originalNote?.userId || '',
       value.subject,
       value.note
     );

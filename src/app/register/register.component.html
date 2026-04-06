@@ -1,0 +1,30 @@
+<form>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input class="form-control" type="text" id="name" [(ngModel)]="name" name="name" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input class="form-control" type="email" id="email" [(ngModel)]="email" name="email" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input class="form-control" type="text" id="phone" [(ngModel)]="phone" name="phone">
+    </div>
+    <br>
+    <div class="form-group">
+        <div *ngIf="usernameExists" class="alert alert-warning">Username already exists. Please choose a different username.</div>
+        <label for="username">Username:</label>
+        <input class="form-control" type="text" id="username" [(ngModel)]="userName" (ngModelChange)="onUsernameChange()" name="userName" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" id="password" [(ngModel)]="password" name="password" required>
+    </div>
+    <button class="btn btn-primary" type="submit" (click)="register(name, userName, email, password, phone)" [disabled]="!name || !userName || !email || !password || usernameExists">Register</button>
+    <p>Already have an account? <a routerLink="/login">Login here</a></p>
+</form>
+

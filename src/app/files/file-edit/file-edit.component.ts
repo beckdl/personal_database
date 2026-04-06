@@ -27,7 +27,7 @@ export class FileEditComponent implements OnInit {
       const id = params['id'];
       if (!id) {
         this.editMode = false;
-        this.file = new File('', '', null, '');
+        this.file = new File('', '', '', null, '');
         return;
       }
       this.originalFile = this.fileService.getFile(id);
@@ -47,6 +47,7 @@ export class FileEditComponent implements OnInit {
     const value = f.value;
     const newFile = new File(
       "",
+      this.file?.userId || this.originalFile?.userId || '',
       value.name,
       this.file.item,
       value.description

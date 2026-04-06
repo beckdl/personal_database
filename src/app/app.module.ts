@@ -22,6 +22,8 @@ import { NoteDetailsComponent } from './notes/note-details/note-details.componen
 import { NoteItemComponent } from './notes/note-item/note-item.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AccountEditComponent } from './account/account-edit/account-edit.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { HttpClientModule } from '@angular/common/http';
     NoteEditComponent,
     NoteDetailsComponent,
     NoteItemComponent,
+    AccountEditComponent,
+    RegisterComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],

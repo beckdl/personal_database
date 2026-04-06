@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class Login {
   private readonly loggedInSubject = new BehaviorSubject<boolean>(false);
   readonly loggedIn$ = this.loggedInSubject.asObservable();
+  private readonly currentUserIdSubject = new BehaviorSubject<string | null>(null);
+  readonly currentUserId$ = this.currentUserIdSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -18,34 +20,42 @@ export class Login {
       return Promise.resolve(false);
     }
 
-    return this.verifyCredentials(username, password).then(isValid => {
+    return this.verifyCredentials(username, password).then(userId => {
+      const isValid = !!userId;
       this.loggedInSubject.next(isValid);
+      this.currentUserIdSubject.next(userId);
       return isValid;
     }).catch(error => {
       console.error('Error verifying credentials:', error);
       this.loggedInSubject.next(false);
+      this.currentUserIdSubject.next(null);
       return false;
     });
   }
 
   logout(): void {
     this.loggedInSubject.next(false);
+    this.currentUserIdSubject.next(null);
   }
 
   isLoggedIn(): boolean {
     return this.loggedInSubject.value;
   }
 
-  verifyCredentials(username: string, password: string): Promise<boolean> {
+  getCurrentUserId(): string | null {
+    return this.currentUserIdSubject.value;
+  }
+
+  verifyCredentials(username: string, password: string): Promise<string | null> {
     return new Promise( (resolve, reject) => {
       this.http.get(`${this.server}/?userName=${username}&password=${password}`).subscribe(
         (user: any) => {
           if (user && user.id) {
             console.log('User authenticated successfully:', user);
-            resolve(true);
+            resolve(user.id);
           } else {
             console.warn('Authentication failed: Invalid credentials');
-            resolve(false);
+            resolve(null);
           }
         },
         (error) => {

@@ -2,8 +2,18 @@ var express = require('express');
 var router = express.Router();
 const Note = require('../models/note');
 
+function getUserIdFromRequest(req) {
+    return req.query.userId || req.body.userId;
+}
+
 router.get('/', (req, res, next) => {
-    Note.find()
+    const userId = getUserIdFromRequest(req);
+
+    if (!userId) {
+        return res.status(400).json({ message: 'userId is required.' });
+    }
+
+    Note.find({ userId: userId })
         .then(notes => {
             res.status(200).json(notes);
         })
@@ -13,8 +23,15 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    const userId = getUserIdFromRequest(req);
+
+    if (!userId) {
+        return res.status(400).json({ message: 'userId is required.' });
+    }
+
     const note = new Note({
         id: new Date().getTime().toString(),
+        userId: userId,
         subject: req.body.subject,
         note: req.body.note
     });
@@ -29,7 +46,13 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    Note.findOne({ id: req.params.id })
+    const userId = getUserIdFromRequest(req);
+
+    if (!userId) {
+        return res.status(400).json({ message: 'userId is required.' });
+    }
+
+    Note.findOne({ id: req.params.id, userId: userId })
         .then(note => {
             if (!note) {
                 return res.status(404).json({ message: 'Note not found.' });
@@ -53,8 +76,18 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
-    Note.findOne({ id: req.params.id })
+    const userId = getUserIdFromRequest(req);
+
+    if (!userId) {
+        return res.status(400).json({ message: 'userId is required.' });
+    }
+
+    Note.findOne({ id: req.params.id, userId: userId })
         .then(note => {
+            if (!note) {
+                return res.status(404).json({ message: 'Note not found.' });
+            }
+
             note.deleteOne({ id: req.params.id })
                 .then(result => {
                     res.status(204).json({ message: 'Note deleted successfully' });
