@@ -16,6 +16,7 @@ export class Files implements OnInit, OnDestroy {
   loadError = '';
   private loginSubscription: Subscription;
   private loadSubscription: Subscription;
+  private fileListSubscription: Subscription;
 
   constructor(
     private loginService: Login,
@@ -24,6 +25,13 @@ export class Files implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.fileListSubscription = this.fileService.fileListChangedEvent.subscribe(
+      (files: File[]) => {
+        this.files = files;
+        this.cdr.detectChanges();
+      }
+    );
+
     this.loginSubscription = this.loginService.loggedIn$.subscribe(
       (isLoggedIn: boolean) => {
         if (!isLoggedIn) {
@@ -40,6 +48,10 @@ export class Files implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.fileListSubscription) {
+      this.fileListSubscription.unsubscribe();
+    }
+
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();
     }

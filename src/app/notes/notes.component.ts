@@ -16,6 +16,7 @@ export class Notes implements OnInit, OnDestroy {
   loadError = '';
   private loginSubscription: Subscription;
   private loadSubscription: Subscription;
+  private noteListSubscription: Subscription;
 
   constructor(
     private loginService: Login,
@@ -24,6 +25,13 @@ export class Notes implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.noteListSubscription = this.noteService.noteListChangedEvent.subscribe(
+      (notes: Note[]) => {
+        this.notes = notes;
+        this.cdr.detectChanges();
+      }
+    );
+
     this.loginSubscription = this.loginService.loggedIn$.subscribe(
       (isLoggedIn: boolean) => {
         if (!isLoggedIn) {
@@ -40,6 +48,10 @@ export class Notes implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.noteListSubscription) {
+      this.noteListSubscription.unsubscribe();
+    }
+
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();
     }
