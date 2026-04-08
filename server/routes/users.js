@@ -31,6 +31,21 @@ router.get('/', (req, res, next) => {
     }
 });
 
+router.get('/:id', (req, res, next) => {
+    user.findOne({ id: req.params.id })
+        .then(user => {
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'An error occurred', error: error });
+        });
+});
+
+
 router.post('/', (req, res, next) => {
     const newUser = new user({
         id: new Date().getTime().toString(),
@@ -57,6 +72,7 @@ router.put('/:id', (req, res, next) => {
                 return res.status(404).json({ message: 'User not found.' });
             }
 
+            user.name = req.body.name;
             user.userName = req.body.userName;
             user.password = req.body.password;
             user.email = req.body.email;

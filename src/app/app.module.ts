@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AccountEditComponent } from './account/account-edit/account-edit.component';
 import { RegisterComponent } from './register/register.component';
+import { AccountDeleteComponent } from './account/account-delete/account-delete.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RegisterComponent } from './register/register.component';
     NoteItemComponent,
     AccountEditComponent,
     RegisterComponent,
+    AccountDeleteComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],

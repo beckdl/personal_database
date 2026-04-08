@@ -1,1 +1,26 @@
-<p>account-edit works!</p>
+<h1>Edit Account</h1>
+<p>Here you can edit your account details. Make sure to save your changes before leaving the page.</p>
+<form (ngSubmit)="saveChanges()">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" [(ngModel)]="phone" name="phone" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" [(ngModel)]="username" name="username" class="form-control">
+  </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+  <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+</form>

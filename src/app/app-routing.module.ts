@@ -12,6 +12,8 @@ import { NoteEditComponent } from './notes/note-edit/note-edit.component';
 import { NoteDetailsComponent } from './notes/note-details/note-details.component';
 import { AccountEditComponent } from './account/account-edit/account-edit.component';
 import { RegisterComponent } from './register/register.component';
+import { AccountDeleteComponent } from './account/account-delete/account-delete.component';
+
 
 
 const appRoutes: Routes = [
@@ -19,7 +21,8 @@ const appRoutes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'about', component: About},
     {path: 'account', component: Account, children: [
-        {path: ':id/edit', component: AccountEditComponent}
+        {path: 'edit', component: AccountEditComponent},
+        {path: 'delete', component: AccountDeleteComponent}
     ]},
     {path: 'files', component: Files, children: [
         {path: 'new', component: FileEditComponent},
